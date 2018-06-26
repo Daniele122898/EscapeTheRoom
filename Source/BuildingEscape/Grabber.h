@@ -1,12 +1,12 @@
-// Copyright Argonau Developments 2018
+// Copyright Argonaut Developments 2018
 
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Components/ActorComponent.h"
+#include "Components/InputComponent.h"
 #include "Grabber.generated.h"
-
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
 {
@@ -28,4 +28,20 @@ public:
 private:
 	// How far ahead of the player can we reach in cm
 	float Reach = 100.f;
+
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+
+	UInputComponent* InputComponent = nullptr;
+
+	// Ray-Cast and grab and what's in reach
+	void Grab();
+
+	// Release what has been grabbed
+	void Release();
+
+	FHitResult GetFirstPhysicsBodyInReach() const;
+
+	void FindPhysicsHandleComponent();
+
+	void SetupInputComponent();
 };
