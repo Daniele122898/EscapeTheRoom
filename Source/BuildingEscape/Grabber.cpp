@@ -49,6 +49,18 @@ void UGrabber::Release()
 	PhysicsHandle->ReleaseComponent();
 }
 
+// Called every frame
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	// if physics handle is attached
+	if (PhysicsHandle->GrabbedComponent) {
+		// move object that we're holding
+		PhysicsHandle->SetTargetLocation(GetRayCastPoints().EndLocation);
+	}
+}
+
 UGrabber::RayCastPoints UGrabber::GetRayCastPoints() const
 {
 	/// Get player view point this tick
@@ -61,18 +73,6 @@ UGrabber::RayCastPoints UGrabber::GetRayCastPoints() const
 
 	Points.EndLocation = Points.StartLocation + PlayerViewPointRotation.Vector() * Reach;
 	return  Points;
-}
-
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// if physics handle is attached
-	if (PhysicsHandle->GrabbedComponent) {
-		// move object that we're holding
-		PhysicsHandle->SetTargetLocation(GetRayCastPoints().EndLocation);
-	}
 }
 
 FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
