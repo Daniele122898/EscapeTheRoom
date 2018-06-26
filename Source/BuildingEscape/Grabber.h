@@ -29,6 +29,12 @@ private:
 	// How far ahead of the player can we reach in cm
 	float Reach = 100.f;
 
+	struct RayCastPoints
+	{
+		FVector StartLocation;
+		FVector EndLocation;
+	};
+
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 
 	UInputComponent* InputComponent = nullptr;
@@ -38,6 +44,9 @@ private:
 
 	// Release what has been grabbed
 	void Release();
+
+	// Get line end for grabber
+	RayCastPoints GetRayCastPoints() const;
 
 	FHitResult GetFirstPhysicsBodyInReach() const;
 
